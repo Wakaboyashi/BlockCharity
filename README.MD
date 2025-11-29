@@ -1,4 +1,4 @@
-# 💙 BlockCharity - Trustless Donation Platform on Sui
+# 💙 BlockCharity - Trusted Donation Platform on Sui
 
 **BlockCharity** is a decentralized fundraising platform built on the **Sui
 Blockchain**. It solves the "trust issue" in traditional charity by using smart
@@ -27,7 +27,7 @@ We utilize **Sui Move Smart Contracts** to act as a programmable escrow vault.
 1.  **Locked Funds:** Donations are locked in a `Campaign Object` on-chain.
 2.  **Verified Recipients:** Funds can _only_ be withdrawn to the pre-defined
     beneficiary address (e.g., a hospital wallet).
-3.  **Trustless Refunds:** If a campaign is cancelled, the contract guarantees
+3.  **Trusted Refunds:** If a campaign is cancelled, the contract guarantees
     that donors can reclaim their funds.
 4.  **Atomic Batch Refunds:** Utilizing **Sui PTBs (Programmable Transaction
     Blocks)**, admins can cancel a campaign and auto-refund multiple donors in a
