@@ -32,7 +32,7 @@ const heroSlides = [
 
 const campaigns = [
   {
-    id: "0xb7d6c8dfdab7b6626a82622797e57fb0908b2211183e74a7a43df00d6669d3d3",
+    id: "0x935d44617d99a0953edbe650119a8523ea346a14d6a341a759006fe073b9d766",
     title: "Save the Stray Dogs Shelter",
     description:
       "Our local shelter has run out of food and medicine supplies. We need your support to prevent the eviction of over 200 dogs.",
@@ -46,7 +46,7 @@ const campaigns = [
   },
 
   {
-    id: "0x4f39c766e6339ba0d6fdb54ad219295458402469f3f299f1703dea0fd1cccb48",
+    id: "0x934aa467e193273a81e61d83a7bae81684594f74150ebaa06884ae2b4fd9f1a8",
     title: "Heart Surgery for Baby Ali",
     description:
       "Baby Ali was born with a congenital heart defect and needs urgent surgery. Insurance doesn't cover the costs, and we are running out of time.",
