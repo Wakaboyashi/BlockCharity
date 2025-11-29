@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { CampaignCard } from "../components/CampaignCard";
+import { CampaignCard, DonationModal } from "../components";
 import { Heart, Search, Wallet, ChevronLeft, ChevronRight } from "lucide-react";
 import { ConnectButton, useAccounts } from "@mysten/dapp-kit";
 
@@ -29,7 +29,7 @@ const heroSlides = [
 
 const campaigns = [
   {
-    id: 1,
+    id: "1",
     title: "Emergency Heart Surgery for 8-Year-Old",
     description:
       "Young Maria needs urgent cardiac surgery to repair a congenital heart defect.",
@@ -41,7 +41,7 @@ const campaigns = [
     category: "#Medical",
   },
   {
-    id: 2,
+    id: "2",
     title: "Clean Water for Rural Community",
     description:
       "Install water filtration systems for 500 families in need of clean drinking water.",
@@ -53,7 +53,7 @@ const campaigns = [
     category: "#Urgent",
   },
   {
-    id: 3,
+    id: "3",
     title: "Education Fund for Orphans",
     description:
       "Provide school supplies and tuition for 100 children who lost their parents.",
@@ -65,7 +65,7 @@ const campaigns = [
     category: "#Children",
   },
   {
-    id: 4,
+    id: "4",
     title: "Cancer Treatment Support",
     description:
       "Help fund chemotherapy and radiation therapy for pediatric cancer patients.",
@@ -77,7 +77,7 @@ const campaigns = [
     category: "#Medical",
   },
   {
-    id: 5,
+    id: "5",
     title: "Emergency Food Relief Program",
     description:
       "Distribute food packages to families affected by recent natural disasters.",
@@ -89,7 +89,7 @@ const campaigns = [
     category: "#Urgent",
   },
   {
-    id: 6,
+    id: "6",
     title: "Build Playground for Children",
     description:
       "Create a safe outdoor play area for kids in an underserved neighborhood.",
@@ -115,6 +115,7 @@ export default function Home() {
   const [activeFilter, setActiveFilter] = useState("#All");
   const [searchQuery, setSearchQuery] = useState("");
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [selectedCampaign, setSelectedCampaign] = useState(null);
   const accounts = useAccounts();
   useEffect(() => {
     const interval = setInterval(() => {
@@ -142,27 +143,38 @@ export default function Home() {
     return matchesFilter && matchesSearch;
   });
 
+  const handleConfirmDonation = (amount) => {
+    console.log(
+      `Donating ${amount} SUI to campaign ${selectedCampaign?.title}`,
+    );
+    // BURADA İLERİDE SUI BLOKZİNCİR İŞLEMİNİ ÇAĞIRACAĞIZ
+
+    // İşlem bitince modalı kapat
+    setSelectedCampaign(null);
+    alert(`Thank you! You donated ${amount} SUI.`);
+  };
+
   return (
     <div className="min-h-screen bg-white">
+      {selectedCampaign && (
+        <DonationModal
+          campaign={selectedCampaign}
+          onClose={() => setSelectedCampaign(null)}
+          onDonate={handleConfirmDonation}
+        />
+      )}
       {/* Header */}
       <header className="absolute top-0 left-0 right-0 z-50 bg-transparent">
         <div className="max-w-7xl mx-auto px-6 py-6">
-          <div className="flex justify-between items-center">
+          <div className="flex items-center">
             <div className="flex items-center gap-2">
               <Heart className="w-8 h-8 text-blue-600 fill-blue-600" />
               <span className="text-2xl text-white drop-shadow-lg">
                 HelpChain
               </span>
             </div>
-            <div>
+            <div className="absolute right-6">
               <ConnectButton />
-              <h2>Available accounts:</h2>
-              {accounts.length === 0 && <div>No accounts detected</div>}
-              <ul>
-                {accounts.map((account) => (
-                  <li key={account.address}>- {account.address}</li>
-                ))}
-              </ul>
             </div>
           </div>
         </div>
@@ -223,42 +235,45 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Search Section */}
-      <section className="relative -mt-20 z-30 max-w-4xl mx-auto px-6">
-        <div
-          className="bg-white rounded-2xl p-8"
-          style={{ boxShadow: "0 20px 60px rgba(0, 0, 0, 0.15)" }}
-        >
-          <div className="flex gap-4 mb-6">
-            <div className="flex-1 relative">
-              <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
-              <input
-                type="text"
-                placeholder="Search campaigns..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-12 pr-4 py-4 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-              />
-            </div>
-            <button className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-lg transition-colors">
-              Search
-            </button>
-          </div>
+      {/* Search & Filter Section */}
+      <section className="relative -mt-20 z-30 max-w-5xl mx-auto px-6">
+        <div className="bg-white/80 backdrop-blur-xl rounded-2xl p-8 shadow-2xl border border-white/40">
+          {/* Search Input */}
+          <div className="flex flex-col md:flex-row items-center gap-6 mb-6 justify-center">
+            <div className="flex items-center gap-4 w-full max-w-4xl">
+              <div className="relative flex-1">
+                <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+                <input
+                  type="text"
+                  placeholder="Search campaigns..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="w-full pl-12 pr-4 py-4 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                />
+              </div>
 
-          <div className="flex gap-3 flex-wrap">
-            {filterTags.map((tag) => (
-              <button
-                key={tag}
-                onClick={() => setActiveFilter(tag)}
-                className={`px-6 py-2 rounded-full transition-all ${
-                  activeFilter === tag
-                    ? "bg-blue-600 text-white shadow-md"
-                    : "bg-gray-100 text-gray-700 hover:bg-gray-200"
-                }`}
-              >
-                {tag}
+              <button className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-xl transition-all shadow-sm hover:shadow-md shrink-0">
+                {" "}
+                Search
               </button>
-            ))}
+            </div>
+
+            {/* Filter Tags */}
+            <div className="flex gap-3 flex-wrap justify-center md:justify-start">
+              {filterTags.map((tag) => (
+                <button
+                  key={tag}
+                  onClick={() => setActiveFilter(tag)}
+                  className={`px-6 py-2 rounded-full text-sm font-medium transition-all ${
+                    activeFilter === tag
+                      ? "bg-blue-600 text-white shadow-md"
+                      : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                  }`}
+                >
+                  {tag}
+                </button>
+              ))}
+            </div>
           </div>
         </div>
       </section>
@@ -267,7 +282,11 @@ export default function Home() {
       <section className="max-w-7xl mx-auto px-6 py-20">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {filteredCampaigns.map((campaign) => (
-            <CampaignCard key={campaign.id} {...campaign} />
+            <CampaignCard
+              key={campaign.id}
+              {...campaign}
+              onDonateClick={(camp) => setSelectedCampaign(camp)}
+            />
           ))}
         </div>
 
