@@ -32,13 +32,13 @@ const heroSlides = [
 
 const campaigns = [
   {
-    id: "0x935d44617d99a0953edbe650119a8523ea346a14d6a341a759006fe073b9d766",
+    id: "0x0f60148a05a40ab10ac9286bfa72b7394b1c812513821667769613904eeb68bf",
     title: "Save the Stray Dogs Shelter",
     description:
       "Our local shelter has run out of food and medicine supplies. We need your support to prevent the eviction of over 200 dogs.",
     imageUrl:
       "https://images.unsplash.com/photo-1548199973-03cce0bbc87b?auto=format&fit=crop&q=80&w=1080",
-    targetAmount: 0.3,
+    targetAmount: 0.1,
     collectedAmount: 0,
     isCritical: true,
     category: "#Community",
